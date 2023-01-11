@@ -1,0 +1,7 @@
+.app-menu-responsivo{
+   height: calc(100vh - 56px - 27px);
+   width: 240px;
+   padding: 16px;
+   overflow: auto;
+   background-color: purple;
+}

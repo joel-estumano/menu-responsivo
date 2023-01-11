@@ -1,0 +1,15 @@
+<nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="mr-4 mt-2">
+        <button class="btn btn-primary-outline" (click)="openMenu()">
+            <i class="text-primary fa-solid" [ngClass]="open ? 'fa-bars' : 'fa-xmark'"></i>
+        </button>
+    </div>
+    <ul class="nav justify-content-start text-uppercase">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/servicos" routerLinkActive="active">Serviços</a>
+        </li>
+    </ul>
+</nav>
