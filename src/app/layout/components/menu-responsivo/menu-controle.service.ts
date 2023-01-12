@@ -14,10 +14,12 @@ export class MenuControleService {
   }
 
   public menuOpen(open: boolean) {
+    console.log('menu open: ', open)
     this.subjectMenuOpen.next(open);
   }
 
   public menuVisible(visivel: boolean) {
+    console.log('menu visivel: ', visivel)
     this.subjectVisibilidade.next(visivel);
   }
 

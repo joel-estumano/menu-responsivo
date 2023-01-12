@@ -17,7 +17,7 @@ import { MenuControleService } from './menu-controle.service';
 export class MenuResponsivoComponent implements AfterViewInit {
   @ViewChild('menu') menu: ElementRef = {} as ElementRef;
   private readonly menuClassico = 'd-flex app-menu-responsivo p-4';
-  private readonly menuOffcanvas = 'd-flex offcanvas-collapse p-4';
+  private readonly menuOffcanvas = 'd-flex menu-offcanvas p-4';
 
   public open$: Observable<boolean> = new Observable();
   public visivel$: Observable<boolean> = new Observable();
@@ -58,16 +58,34 @@ export class MenuResponsivoComponent implements AfterViewInit {
     this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
       this.open = isOpen;
 
-      if (this.open && this.visivel) {
-        this.menuClassico.split(' ').forEach((className: string) => {
-          this.renderer2.addClass(this.menu.nativeElement, className);
+      if (this.visivel) {
+        this.menuOffcanvas.split(' ').forEach((className: string) => {
+          this.renderer2.removeClass(this.menu.nativeElement, className);
         });
+        if (this.open) {
+          this.menuClassico.split(' ').forEach((className: string) => {
+            this.renderer2.addClass(this.menu.nativeElement, className);
+          });
+        } else {
+          this.menuClassico.split(' ').forEach((className: string) => {
+            this.renderer2.removeClass(this.menu.nativeElement, className);
+          });
+        }
       } else {
         this.menuClassico.split(' ').forEach((className: string) => {
           this.renderer2.removeClass(this.menu.nativeElement, className);
         });
+        if (this.open) {
+          this.menuOffcanvas.split(' ').forEach((className: string) => {
+            this.renderer2.addClass(this.menu.nativeElement, className);
+          });
+        } else {
+          this.menuOffcanvas.split(' ').forEach((className: string) => {
+            this.renderer2.removeClass(this.menu.nativeElement, className);
+          });
+        }
       }
-
+      
     });
   }
 
