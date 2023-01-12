@@ -1,12 +1,11 @@
 <div #menu class="d-none">
-    <!-- <div class="offcanvas-collapse open"> -->
     <ul class="navbar-nav w-100">
 
-        <li class="nav-item p-0 m-0" style="text-align: end;">
-            <button class="btn btn-primary-outline" (click)="menuOpen(menu)" *ngIf="{ 
+        <li class="nav-item p-0 m-0" style="text-align: end;" (click)="menuOpen(menu)" *ngIf="{ 
             open: open$ | async,
             visivel: visivel$ | async 
         } as menu">
+            <button *ngIf="!menu.visivel" class="btn btn-primary-outline">
                 <i class="text-primary fa-solid" [ngClass]="menu.open && menu.visivel ? 'fa-bars' : 'fa-xmark'"></i>
             </button>
         </li>

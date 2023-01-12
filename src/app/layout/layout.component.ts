@@ -15,7 +15,7 @@ export class LayoutComponent {
       map((visivel: boolean) => {
         return { visivel: visivel };
       }),
-      debounceTime(250),
+      debounceTime(500),
       distinctUntilChanged()
     );
   }

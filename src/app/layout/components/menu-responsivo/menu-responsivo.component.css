@@ -19,7 +19,6 @@
   outline: 1px solid slategrey;
 }
 
-
 .menu-offcanvas {
   position: fixed;
   top: 0px;
@@ -27,6 +26,6 @@
   width: 240px;
   padding: 16px;
   overflow-y: auto;
-  background-color: var(--gray-dark);
-  z-index: 10000000;
+  background-color: #343a40ef;
+  z-index: 10000;
 }

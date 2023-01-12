@@ -6,7 +6,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { lastValueFrom, map, Observable } from 'rxjs';
 import { MenuControleService } from './menu-controle.service';
 
 @Component({
@@ -22,8 +22,8 @@ export class MenuResponsivoComponent implements AfterViewInit {
   public open$: Observable<boolean> = new Observable();
   public visivel$: Observable<boolean> = new Observable();
 
-  private open: boolean = true;
-  public visivel: boolean = true;
+  private open: boolean = false;
+  private visivel: boolean = false;
 
   @HostListener('window:load', ['$event'])
   @HostListener('window:scroll', ['$event'])
@@ -31,8 +31,10 @@ export class MenuResponsivoComponent implements AfterViewInit {
   onWindowScroll(event?: any) {
     if (this.elementRef.nativeElement.offsetParent?.className) {
       this.mControlService.menuVisible(true);
+      this.mControlService.menuOpen(true);
     } else {
       this.mControlService.menuVisible(false);
+      this.mControlService.menuOpen(false);
     }
   }
 
@@ -55,6 +57,7 @@ export class MenuResponsivoComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.onWindowScroll();
     this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
       this.open = isOpen;
 
@@ -85,7 +88,6 @@ export class MenuResponsivoComponent implements AfterViewInit {
           });
         }
       }
-      
     });
   }
 
