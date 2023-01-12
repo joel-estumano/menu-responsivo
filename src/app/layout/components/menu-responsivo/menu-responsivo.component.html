@@ -1,6 +1,16 @@
 <div #menu class="d-none">
-<!-- <div class="offcanvas-collapse open"> -->
-    <ul class="navbar-nav">
+    <!-- <div class="offcanvas-collapse open"> -->
+    <ul class="navbar-nav w-100">
+
+        <li class="nav-item p-0 m-0" style="text-align: end;">
+            <button class="btn btn-primary-outline" (click)="menuOpen(menu)" *ngIf="{ 
+            open: open$ | async,
+            visivel: visivel$ | async 
+        } as menu">
+                <i class="text-primary fa-solid" [ngClass]="menu.open && menu.visivel ? 'fa-xmark' : 'fa-bars'"></i>
+            </button>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
         </li>

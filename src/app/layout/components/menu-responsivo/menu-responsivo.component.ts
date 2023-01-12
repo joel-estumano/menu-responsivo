@@ -6,6 +6,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { MenuControleService } from './menu-controle.service';
 
 @Component({
@@ -16,20 +17,22 @@ import { MenuControleService } from './menu-controle.service';
 export class MenuResponsivoComponent implements AfterViewInit {
   @ViewChild('menu') menu: ElementRef = {} as ElementRef;
   private readonly menuClassico = 'd-flex app-menu-responsivo p-4';
-  private readonly menuOffcanvas = 'd-flex offcanvas-collapse open p-4';
+  private readonly menuOffcanvas = 'd-flex offcanvas-collapse p-4';
+
+  public open$: Observable<boolean> = new Observable();
+  public visivel$: Observable<boolean> = new Observable();
 
   private open: boolean = true;
+  public visivel: boolean = true;
 
   @HostListener('window:load', ['$event'])
   @HostListener('window:scroll', ['$event'])
   @HostListener('window:resize', ['$event'])
   onWindowScroll(event?: any) {
     if (this.elementRef.nativeElement.offsetParent?.className) {
-      console.log('não existia parent');
-      this.mControlService.setVisivel(true);
+      this.mControlService.menuVisible(true);
     } else {
-      console.log('existia parent');
-      this.mControlService.setVisivel(false);
+      this.mControlService.menuVisible(false);
     }
   }
 
@@ -37,15 +40,25 @@ export class MenuResponsivoComponent implements AfterViewInit {
     private mControlService: MenuControleService,
     private elementRef: ElementRef,
     private renderer2: Renderer2
-  ) {}
+  ) {
+    this.open$ = this.mControlService.getSourceMenuOpen().pipe(
+      map((open: boolean) => {
+        return open;
+      })
+    );
+    this.visivel$ = this.mControlService.getSourceVisibilidade().pipe(
+      map((visivel: boolean) => {
+        this.visivel = visivel;
+        return visivel;
+      })
+    );
+  }
+
   ngAfterViewInit(): void {
     this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
       this.open = isOpen;
 
-      if (this.open) {
-        /*  this.menuClassico.split(' ').forEach((className: string) => {
-          this.renderer2.removeClass(this.menu.nativeElement, className);
-        }); */
+      if (this.open && this.visivel) {
         this.menuClassico.split(' ').forEach((className: string) => {
           this.renderer2.addClass(this.menu.nativeElement, className);
         });
@@ -53,13 +66,12 @@ export class MenuResponsivoComponent implements AfterViewInit {
         this.menuClassico.split(' ').forEach((className: string) => {
           this.renderer2.removeClass(this.menu.nativeElement, className);
         });
-        /*  this.menuClassico.split(' ').forEach((className: string) => {
-          this.renderer2.addClass(this.menu.nativeElement, className);
-        }); */
       }
+
     });
   }
-}
 
-//  this.renderer2.setAttribute(this.menu.nativeElement, 'class', 'd-flex app-menu-responsivo p-4');
-// && this.elementRef.nativeElement.offsetParent?.className
+  menuOpen(menu: any) {
+    this.mControlService.menuOpen(!menu.open);
+  }
+}

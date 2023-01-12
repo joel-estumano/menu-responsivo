@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MenuControleService } from '../menu-responsivo/menu-controle.service';
 
 @Component({
@@ -12,25 +12,13 @@ export class NavbarComponent implements OnInit {
   public visivel$: Observable<boolean> = new Observable();
 
   constructor(private menuControleService: MenuControleService) {
-    this.open$ = this.menuControleService.getSourceMenuOpen().pipe(
-      map((open) => {
-        return open;
-      })
-    );
-    this.visivel$ = this.menuControleService.getSourceVisibilidade().pipe(
-      map((visivel: boolean) => {
-        return visivel;
-      })
-    );
+    this.open$ = this.menuControleService.getSourceMenuOpen().pipe();
+    this.visivel$ = this.menuControleService.getSourceVisibilidade().pipe();
   }
 
   ngOnInit(): void {}
 
   openMenu(menu: any) {
-    if (menu.visivel) {
-      this.menuControleService.setMenuOpen(!menu.open);
-    } else {
-      alert('off canvas ...');
-    }
+    this.menuControleService.menuOpen(!menu.open);
   }
 }
