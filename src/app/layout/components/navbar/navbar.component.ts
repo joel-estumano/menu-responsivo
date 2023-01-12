@@ -8,47 +8,29 @@ import { MenuControleService } from '../menu-responsivo/menu-controle.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  public open: boolean = false;
-  public visivel: boolean = false;
+  public open$: Observable<boolean> = new Observable();
+  public visivel$: Observable<boolean> = new Observable();
 
   constructor(private menuControleService: MenuControleService) {
-    this.isMenuOpen().subscribe();
-    this.isMenuVisivel().subscribe();
+    this.open$ = this.menuControleService.getSourceMenuOpen().pipe(
+      map((open) => {
+        return open;
+      })
+    );
+    this.visivel$ = this.menuControleService.getSourceVisibilidade().pipe(
+      map((visivel: boolean) => {
+        return visivel;
+      })
+    );
   }
 
   ngOnInit(): void {}
 
-  openMenu() {
-    if (this.visivel) {
-      this.menuControleService.setMenuOpen(!this.open);
+  openMenu(menu: any) {
+    if (menu.visivel) {
+      this.menuControleService.setMenuOpen(!menu.open);
     } else {
       alert('off canvas ...');
     }
-  }
-
-  isMenuOpen(): Observable<boolean> {
-    return this.menuControleService.getSourceMenuOpen().pipe(
-      map((controle) => {
-        if (controle) {
-          this.open = true;
-        } else {
-          this.open = false;
-        }
-        return controle;
-      })
-    );
-  }
-
-  isMenuVisivel(): Observable<boolean> {
-    return this.menuControleService.getSourceVisibilidade().pipe(
-      map((visivel: boolean) => {
-        if (visivel) {
-          this.visivel = true;
-        } else {
-          this.visivel = false;
-        }
-        return visivel;
-      })
-    );
   }
 }

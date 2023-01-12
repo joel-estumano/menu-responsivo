@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuControleService {
-  private subjectMenuOpen = new Subject<boolean>();
+  private subjectMenuOpen: BehaviorSubject<boolean>;
   private subjectVisibilidade = new Subject<boolean>();
+
+  constructor() {
+    this.subjectMenuOpen = new BehaviorSubject<boolean>(true);
+  }
 
   public setMenuOpen(open: boolean) {
     this.subjectMenuOpen.next(open);
