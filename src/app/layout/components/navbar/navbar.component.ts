@@ -10,8 +10,8 @@ export class NavbarComponent implements OnInit {
   public open: boolean = false;
 
   constructor(private readonly menuResponsivoService: MenuResponsivoService) {
-    this.menuResponsivoService.getSource().subscribe((isOpen) => {
-      if (isOpen) {
+    this.menuResponsivoService.getSource().subscribe((menuControle) => {
+      if (menuControle.existe() && menuControle.visivel()) {
         this.open = false;
       } else {
         this.open = true;
