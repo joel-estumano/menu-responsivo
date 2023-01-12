@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
-import { MenuControle } from '../menu-responsivo/menu-controle.model';
-import { MenuDisplayService } from '../menu-responsivo/menu-display.service';
-import { MenuVisivelService } from '../menu-responsivo/menu-visivel.service';
+import { map, Observable } from 'rxjs';
+import { MenuControleService } from '../menu-responsivo/menu-controle.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,39 +11,36 @@ export class NavbarComponent implements OnInit {
   public open: boolean = false;
   public visivel: boolean = false;
 
-  constructor(
-    private menuDisplayService: MenuDisplayService,
-    private menuVisivelService: MenuVisivelService
-  ) {
-    this.isDisplayValid().subscribe();
-    this.isDisplayVisible().subscribe();
+  constructor(private menuControleService: MenuControleService) {
+    this.isMenuOpen().subscribe();
+    this.isMenuVisivel().subscribe();
   }
 
   ngOnInit(): void {}
 
   openMenu() {
     if (this.visivel) {
-      this.menuDisplayService.setOpen(!this.open);
-    }else{
-      alert('off canvas ...')
+      this.menuControleService.setMenuOpen(!this.open);
+    } else {
+      alert('off canvas ...');
     }
   }
 
-  isDisplayValid(): Observable<boolean> {
-    return this.menuDisplayService.getSource().pipe(
-      map((controle: MenuControle) => {
-        if (controle.existe()) {
+  isMenuOpen(): Observable<boolean> {
+    return this.menuControleService.getSourceMenuOpen().pipe(
+      map((controle) => {
+        if (controle) {
           this.open = true;
         } else {
           this.open = false;
         }
-        return controle.existe();
+        return controle;
       })
     );
   }
 
-  isDisplayVisible(): Observable<boolean> {
-    return this.menuVisivelService.getSource().pipe(
+  isMenuVisivel(): Observable<boolean> {
+    return this.menuControleService.getSourceVisibilidade().pipe(
       map((visivel: boolean) => {
         if (visivel) {
           this.visivel = true;

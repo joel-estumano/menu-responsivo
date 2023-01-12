@@ -5,9 +5,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { MenuResponsivoComponent } from './components/menu-responsivo/menu-responsivo.component';
 import { ConteudoComponent } from './components/conteudo/conteudo.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { MenuDisplayService } from './components/menu-responsivo/menu-display.service';
 import { CommonModule } from '@angular/common';
-import { MenuVisivelService } from './components/menu-responsivo/menu-visivel.service';
+import { MenuControleService } from './components/menu-responsivo/menu-controle.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +20,6 @@ import { MenuVisivelService } from './components/menu-responsivo/menu-visivel.se
     LayoutRoutingModule,
     CommonModule      
   ],
-  providers: [MenuDisplayService, MenuVisivelService]
+  providers: [MenuControleService]
 })
 export class LayoutModule { }

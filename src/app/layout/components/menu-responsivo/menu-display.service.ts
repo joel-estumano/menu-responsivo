@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Displayers, MenuControle } from './menu-controle.model';
 
@@ -23,4 +23,4 @@ export class MenuDisplayService {
   public getSource(): Observable<MenuControle> {
     return this.menuControle.asObservable();
   }
-}
+} */

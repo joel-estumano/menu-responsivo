@@ -4,9 +4,9 @@ import {
   HostListener,
   OnInit,
   Renderer2,
+  ViewChild,
 } from '@angular/core';
-import { MenuDisplayService } from './menu-display.service';
-import { MenuVisivelService } from './menu-visivel.service';
+import { MenuControleService } from './menu-controle.service';
 
 @Component({
   selector: 'app-menu-responsivo',
@@ -14,40 +14,53 @@ import { MenuVisivelService } from './menu-visivel.service';
   styleUrls: ['./menu-responsivo.component.css'],
 })
 export class MenuResponsivoComponent implements OnInit {
+  @ViewChild('menu') menu: ElementRef = {} as ElementRef;
+  private readonly menuClassico = 'd-flex app-menu-responsivo p-4';
+  private readonly menuOffcanvas = 'd-flex offcanvas-collapse open p-4';
+
   private open: boolean = true;
 
   @HostListener('window:load', ['$event'])
   @HostListener('window:scroll', ['$event'])
   @HostListener('window:resize', ['$event'])
   onWindowScroll(event?: any) {
-    if (this.elementRef.nativeElement.offsetParent?.className) {
+     if (this.elementRef.nativeElement.offsetParent?.className) {
       console.log('não existia parent');
-      this.menuVisivelService.setVisivel(true);
+      this.mControlService.setVisivel(true);
     } else {
       console.log('existia parent');
-      this.menuVisivelService.setVisivel(false);
-    }
+      this.mControlService.setVisivel(false);
+    } 
   }
 
   constructor(
-    private menuDisplayService: MenuDisplayService,
-    private menuVisivelService: MenuVisivelService,
+    private mControlService: MenuControleService,
     private elementRef: ElementRef,
     private renderer2: Renderer2
   ) {
-    this.menuDisplayService.getSource().subscribe((menuControle) => {
-      this.open = menuControle.existe();
+    this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
+      this.open = isOpen;
 
       if (this.open) {
-        this.renderer2.removeClass(this.elementRef.nativeElement, 'd-none');
-        this.renderer2.addClass(this.elementRef.nativeElement, 'd-flex');
+        /*  this.menuClassico.split(' ').forEach((className: string) => {
+          this.renderer2.removeClass(this.menu.nativeElement, className);
+        }); */
+        this.menuClassico.split(' ').forEach((className: string) => {
+          this.renderer2.addClass(this.menu.nativeElement, className);
+        });
       } else {
-        this.renderer2.removeClass(this.elementRef.nativeElement, 'd-flex');
-        this.renderer2.addClass(this.elementRef.nativeElement, 'd-none');
-        // && this.elementRef.nativeElement.offsetParent?.className
+        this.menuClassico.split(' ').forEach((className: string) => {
+          this.renderer2.removeClass(this.menu.nativeElement, className);
+        });
+        /*  this.menuClassico.split(' ').forEach((className: string) => {
+          this.renderer2.addClass(this.menu.nativeElement, className);
+        }); */
       }
     });
   }
 
   ngOnInit(): void {}
 }
+
+//  this.renderer2.setAttribute(this.menu.nativeElement, 'class', 'd-flex app-menu-responsivo p-4');
+// && this.elementRef.nativeElement.offsetParent?.className
