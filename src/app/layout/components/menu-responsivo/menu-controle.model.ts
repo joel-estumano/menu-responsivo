@@ -1,16 +1,17 @@
 export class MenuControle {
   readonly existe: () => boolean;
   display: Displayers;
-  readonly visivel: () => boolean;
 
-  constructor(display: Displayers, visivel: boolean = true) {
+  constructor(display: Displayers) {
     this.display = display;
     this.existe = function () {
       return this.display === Displayers.none ? false : true;
     };
-    this.visivel = function () {
-      return visivel ? true : false;
-    };
+  }
+
+  setDisplay(display: Displayers): MenuControle {
+    this.display = display;
+    return this;
   }
 }
 
