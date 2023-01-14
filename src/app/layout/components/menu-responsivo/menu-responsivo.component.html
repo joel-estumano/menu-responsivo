@@ -6,7 +6,7 @@
             visivel: visivel$ | async 
         } as menu">
             <button *ngIf="!menu.visivel" class="btn btn-primary-outline">
-                <i class="text-primary fa-solid" [ngClass]="menu.open && menu.visivel ? 'fa-bars' : 'fa-xmark'"></i>
+                <i class="text-primary fa-solid" [ngClass]="menu.open ? 'fa-xmark' : 'fa-bars'"></i>
             </button>
         </li>
 

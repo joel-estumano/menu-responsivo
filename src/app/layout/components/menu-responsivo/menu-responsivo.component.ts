@@ -16,8 +16,8 @@ import { MenuControleService } from './menu-controle.service';
 })
 export class MenuResponsivoComponent implements AfterViewInit {
   @ViewChild('menu') menu: ElementRef = {} as ElementRef;
-  private readonly menuClassico = 'd-flex app-menu-responsivo p-4';
-  private readonly menuOffcanvas = 'd-flex menu-offcanvas p-4';
+  private readonly menuClassico = 'd-flex app-menu-responsivo';
+  private readonly menuOffcanvas = 'd-flex menu-offcanvas';
 
   public open$: Observable<boolean> = new Observable();
   public visivel$: Observable<boolean> = new Observable();
@@ -62,6 +62,15 @@ export class MenuResponsivoComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    this.renderer2.listen(this.menu.nativeElement, 'click', (event: any) => {
+      event.stopPropagation();
+      if (!event.defaultPrevented && !event.target.offsetParent) {
+        this.onClickBackdrop()
+      }
+    });
+
+
     this.onWindowScroll();
     this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
       if (this.visivel) {
@@ -96,5 +105,10 @@ export class MenuResponsivoComponent implements AfterViewInit {
 
   menuOpen(menu: any) {
     this.mControlService.menuOpen(!menu.open);
+  }
+
+  onClickBackdrop() {
+    this.mControlService.menuVisible(false);
+    this.mControlService.menuOpen(false);
   }
 }
