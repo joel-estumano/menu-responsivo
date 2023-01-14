@@ -33,6 +33,7 @@
 
 .menu-offcanvas .navbar-nav {
   padding: 16px;
+  backdrop-filter: blur(10px);
   background-color: #343a40ef;
   width: 240px !important;
   overflow: auto;
