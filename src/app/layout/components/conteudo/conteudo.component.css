@@ -17,4 +17,5 @@
 ::-webkit-scrollbar-thumb {
   background-color: var(--warning);
   outline: 1px solid slategrey;
+  border-radius: 0.3rem;
 }

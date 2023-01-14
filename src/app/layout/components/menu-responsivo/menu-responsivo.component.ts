@@ -6,7 +6,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { MenuControleService } from './menu-controle.service';
 
 @Component({
@@ -28,12 +28,17 @@ export class MenuResponsivoComponent implements AfterViewInit {
   @HostListener('window:scroll', ['$event'])
   @HostListener('window:resize', ['$event'])
   onWindowScroll(event?: any) {
-    if (this.elementRef.nativeElement.offsetParent?.className) {
-      this.mControlService.menuVisible(true);
-      this.mControlService.menuOpen(true);
-    } else {
-      this.mControlService.menuVisible(false);
-      this.mControlService.menuOpen(false);
+    if (event) {
+      if (
+        this.elementRef.nativeElement.offsetParent?.offsetWidth == 240 ||
+        this.elementRef.nativeElement.offsetParent?.offsetWidth > 768
+      ) {
+        this.mControlService.menuVisible(true);
+        this.mControlService.menuOpen(true);
+      } else {
+        this.mControlService.menuVisible(false);
+        this.mControlService.menuOpen(false);
+      }
     }
   }
 
@@ -51,14 +56,14 @@ export class MenuResponsivoComponent implements AfterViewInit {
       map((visivel: boolean) => {
         this.visivel = visivel;
         return visivel;
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
   ngAfterViewInit(): void {
     this.onWindowScroll();
     this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
-     
       if (this.visivel) {
         this.menuOffcanvas.split(' ').forEach((className: string) => {
           this.renderer2.removeClass(this.menu.nativeElement, className);

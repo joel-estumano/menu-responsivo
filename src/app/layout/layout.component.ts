@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { MenuControleService } from './components/menu-responsivo/menu-controle.service';
 
 @Component({
@@ -15,7 +15,6 @@ export class LayoutComponent {
       map((visivel: boolean) => {
         return { visivel: visivel };
       }),
-      debounceTime(500),
       distinctUntilChanged()
     );
   }

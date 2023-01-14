@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { distinctUntilChanged, Observable } from 'rxjs';
 import { MenuControleService } from '../menu-responsivo/menu-controle.service';
 
 @Component({
@@ -13,7 +13,9 @@ export class NavbarComponent implements OnInit {
 
   constructor(private menuControleService: MenuControleService) {
     this.open$ = this.menuControleService.getSourceMenuOpen().pipe();
-    this.visivel$ = this.menuControleService.getSourceVisibilidade().pipe();
+    this.visivel$ = this.menuControleService.getSourceVisibilidade().pipe(
+      distinctUntilChanged()
+    );
   }
 
   ngOnInit(): void {}
