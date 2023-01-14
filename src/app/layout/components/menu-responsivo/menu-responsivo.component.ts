@@ -30,7 +30,7 @@ export class MenuResponsivoComponent implements AfterViewInit {
   onWindowScroll(event?: any) {
     if (event) {
       if (
-        this.elementRef.nativeElement.offsetParent?.offsetWidth == 240 ||
+        this.elementRef.nativeElement.offsetParent?.offsetWidth === this.menu.nativeElement.offsetWidth ||
         this.elementRef.nativeElement.offsetParent?.offsetWidth > 768
       ) {
         this.mControlService.menuVisible(true);

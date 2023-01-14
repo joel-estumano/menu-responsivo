@@ -1,32 +1,33 @@
 .app-menu-responsivo {
-  height: calc(100vh - 56px - 27px);
-  width: 240px;
-  padding: 16px;
-  overflow: auto;
-  background-color: purple;
+    height: calc(100vh - 56px - 27px);
+    width: 240px;
+    padding: 16px;
+    overflow: auto;
+    background-color: purple;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--warning);
-  outline: 1px solid slategrey;
-  border-radius: 0.3rem;
+    background-color: var(--warning);
+    outline: 1px solid slategrey;
+    border-radius: 0.3rem;
 }
 
 .menu-offcanvas {
-  position: fixed;
-  top: 0px;
-  bottom: 0;
-  width: 240px;
-  padding: 16px;
-  overflow-y: auto;
-  background-color: #343a40ef;
-  z-index: 10000;
+    position: fixed;
+    top: 0px;
+    bottom: 0;
+    width: 240px;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #343a40ef;
+    z-index: 10000;
+    backdrop-filter: blur(10px);
 }
