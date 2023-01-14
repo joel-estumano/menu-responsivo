@@ -29,6 +29,10 @@ export class MenuResponsivoComponent implements AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onWindowScroll(event?: any) {
     if (event) {
+
+      console.log('largura menu: ', this.menu.nativeElement.offsetWidth)
+      console.log('largura parent: ', this.elementRef.nativeElement.offsetParent?.offsetWidth)
+
       if (
         this.elementRef.nativeElement.offsetParent?.offsetWidth === this.menu.nativeElement.offsetWidth ||
         this.elementRef.nativeElement.offsetParent?.offsetWidth > 768
@@ -39,6 +43,7 @@ export class MenuResponsivoComponent implements AfterViewInit {
         this.mControlService.menuVisible(false);
         this.mControlService.menuOpen(false);
       }
+
     }
   }
 
@@ -51,7 +56,7 @@ export class MenuResponsivoComponent implements AfterViewInit {
       map((open: boolean) => {
         return open;
       })
-    );
+    )
     this.visivel$ = this.mControlService.getSourceVisibilidade().pipe(
       map((visivel: boolean) => {
         this.visivel = visivel;
@@ -66,12 +71,10 @@ export class MenuResponsivoComponent implements AfterViewInit {
     this.renderer2.listen(this.menu.nativeElement, 'click', (event: any) => {
       event.stopPropagation();
       if (!event.defaultPrevented && !event.target.offsetParent) {
-        this.onClickBackdrop()
+        this.menuOpen({ open: true })
       }
     });
 
-
-    this.onWindowScroll();
     this.mControlService.getSourceMenuOpen().subscribe((isOpen) => {
       if (this.visivel) {
         this.menuOffcanvas.split(' ').forEach((className: string) => {
@@ -105,10 +108,5 @@ export class MenuResponsivoComponent implements AfterViewInit {
 
   menuOpen(menu: any) {
     this.mControlService.menuOpen(!menu.open);
-  }
-
-  onClickBackdrop() {
-    this.mControlService.menuVisible(false);
-    this.mControlService.menuOpen(false);
   }
 }
