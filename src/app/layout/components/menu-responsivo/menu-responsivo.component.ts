@@ -33,17 +33,15 @@ export class MenuResponsivoComponent implements AfterViewInit {
       console.log('largura menu: ', this.menu.nativeElement.offsetWidth)
       console.log('largura parent: ', this.elementRef.nativeElement.offsetParent?.offsetWidth)
 
-      if (
-        this.elementRef.nativeElement.offsetParent?.offsetWidth === this.menu.nativeElement.offsetWidth ||
-        this.elementRef.nativeElement.offsetParent?.offsetWidth > 768
-      ) {
-        this.mControlService.menuVisible(true);
-        this.mControlService.menuOpen(true);
-      } else {
+      if (!this.elementRef.nativeElement.offsetParent) {
         this.mControlService.menuVisible(false);
         this.mControlService.menuOpen(false);
+      } else {
+        if (this.elementRef.nativeElement.offsetParent?.offsetWidth > 768) {
+          this.mControlService.menuVisible(true);
+          this.mControlService.menuOpen(true);
+        }
       }
-
     }
   }
 
